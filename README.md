@@ -124,20 +124,20 @@ Data tugas disimpan sementara di memori selama aplikasi berjalan. Data tidak ber
 
 ### Tampilan Awal
 
-![Tampilan awal TodoApp](screenshots/1-tampilan-awal.png)
+![Tampilan awal TodoApp](screenshots/1_tampilanawal.png)
 
 ### Menambah Tugas
 
-![Daftar tugas dengan beberapa prioritas](screenshots/2-tambah-tugas.png)
+![Daftar tugas dengan beberapa prioritas](screenshots/2_daftartugas.png)
 
 ### Tugas Ditandai Selesai
 
-![Tugas dengan awalan Selesai](screenshots/3-tugas-selesai.png)
+![Tugas dengan awalan Selesai](screenshots/3_tugasselesai.png)
 
 ### Validasi Input
 
-![Peringatan ketika nama tugas kosong](screenshots/4-validasi-kosong.png)
+![Peringatan ketika nama tugas kosong](screenshots/4_inputkosong.png)
 
 ### Konfirmasi Keluar
 
-![Dialog konfirmasi saat menutup aplikasi](screenshots/5-konfirmasi-keluar.png)
+![Dialog konfirmasi saat menutup aplikasi](screenshots/5_konfirmasikeluar.png)

@@ -5,33 +5,22 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
- * Aplikasi Daftar Tugas Mahasiswa (GUI Java Swing) dengan tampilan berwarna.
- *
- * Interface yang digunakan:
- *  1. ActionListener        -> klik tombol Tambah, Tandai Selesai, Hapus
- *  2. ListSelectionListener -> memperbarui status saat item daftar dipilih
- *  3. KeyListener           -> menekan Enter di kolom teks menambah tugas
- *  4. WindowAdapter (WindowListener) -> konfirmasi saat jendela ditutup
- */
 public class TodoApp extends JFrame
         implements ActionListener, ListSelectionListener, KeyListener {
 
-    // ===== Palet warna: hijau pastel dan kuning pastel =====
-    private static final Color HIJAU_LATAR   = new Color(0xF1F8E9); // latar jendela
-    private static final Color HIJAU_PASTEL  = new Color(0xC8E6C9); // header, tombol hijau
-    private static final Color HIJAU_PILIH   = new Color(0xA5D6A7); // baris daftar terpilih
-    private static final Color HIJAU_TUA     = new Color(0x2E7D32); // judul, border, status
-    private static final Color KUNING_MUDA   = new Color(0xFFFDE7); // latar daftar tugas
-    private static final Color KUNING_PASTEL = new Color(0xFFF59D); // panel input, tombol kuning
-    private static final Color KUNING_TUA    = new Color(0xF9A825); // border kuning
-    private static final Color TEKS_GELAP    = new Color(0x33432F); // teks umum
-    private static final Color WARNA_TINGGI  = new Color(198, 40, 40);   // teks prioritas tinggi
-    private static final Color WARNA_SEDANG  = new Color(239, 108, 0);   // teks prioritas sedang
-    private static final Color WARNA_RENDAH  = new Color(46, 125, 50);   // teks prioritas rendah
-    private static final Color WARNA_SELESAI = new Color(150, 150, 150); // teks tugas selesai
+    private static final Color HIJAU_LATAR   = new Color(0xF1F8E9);
+    private static final Color HIJAU_PASTEL  = new Color(0xC8E6C9);
+    private static final Color HIJAU_PILIH   = new Color(0xA5D6A7);
+    private static final Color HIJAU_TUA     = new Color(0x2E7D32);
+    private static final Color KUNING_MUDA   = new Color(0xFFFDE7);
+    private static final Color KUNING_PASTEL = new Color(0xFFF59D);
+    private static final Color KUNING_TUA    = new Color(0xF9A825);
+    private static final Color TEKS_GELAP    = new Color(0x33432F);
+    private static final Color WARNA_TINGGI  = new Color(198, 40, 40);
+    private static final Color WARNA_SEDANG  = new Color(239, 108, 0);
+    private static final Color WARNA_RENDAH  = new Color(46, 125, 50);
+    private static final Color WARNA_SELESAI = new Color(150, 150, 150);
 
-    // Atomic Components
     private JLabel lblJudul, lblTugas, lblPrioritas, lblStatus;
     private JTextField txtTugas;
     private JComboBox<String> cbPrioritas;
@@ -41,15 +30,12 @@ public class TodoApp extends JFrame
     private DefaultListModel<String> model;
 
     public TodoApp() {
-        // Top Level Container: JFrame (class ini sendiri)
         setTitle("Daftar Tugas Mahasiswa");
         setSize(500, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         initComponents();
-
-        // Event Handling: WindowListener lewat WindowAdapter (anonymous class)
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -64,11 +50,9 @@ public class TodoApp extends JFrame
     }
 
     private void initComponents() {
-        // Layout Manager utama JFrame: BorderLayout
         setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(HIJAU_LATAR);
 
-        // ===== Panel Atas (Intermediate Component) - BorderLayout.NORTH =====
         JPanel panelAtas = new JPanel(new BorderLayout());
         panelAtas.setBackground(HIJAU_PASTEL);
         panelAtas.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, KUNING_PASTEL));
@@ -79,7 +63,6 @@ public class TodoApp extends JFrame
         panelAtas.add(lblJudul, BorderLayout.CENTER);
         add(panelAtas, BorderLayout.NORTH);
 
-        // ===== Panel Input (Intermediate Component) - GridLayout =====
         JPanel panelInput = new JPanel(new GridLayout(3, 2, 5, 8));
         panelInput.setBackground(KUNING_PASTEL);
         panelInput.setBorder(BorderFactory.createCompoundBorder(
@@ -90,7 +73,7 @@ public class TodoApp extends JFrame
         lblTugas.setForeground(TEKS_GELAP);
         txtTugas = new JTextField();
         txtTugas.setBackground(Color.WHITE);
-        txtTugas.addKeyListener(this); // KeyListener
+        txtTugas.addKeyListener(this);
 
         lblPrioritas = new JLabel("Prioritas:");
         lblPrioritas.setForeground(TEKS_GELAP);
@@ -101,7 +84,7 @@ public class TodoApp extends JFrame
         chkPalingAtas.setBackground(KUNING_PASTEL);
         chkPalingAtas.setForeground(TEKS_GELAP);
         btnTambah = buatTombol("Tambah", HIJAU_PASTEL, HIJAU_TUA);
-        btnTambah.addActionListener(this); // ActionListener
+        btnTambah.addActionListener(this);
 
         panelInput.add(lblTugas);
         panelInput.add(txtTugas);
@@ -110,18 +93,16 @@ public class TodoApp extends JFrame
         panelInput.add(chkPalingAtas);
         panelInput.add(btnTambah);
 
-        // ===== Panel Daftar (Intermediate Component: JScrollPane) =====
         model = new DefaultListModel<>();
         listTugas = new JList<>(model);
         listTugas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listTugas.setBackground(KUNING_MUDA);
-        listTugas.setCellRenderer(new TugasRenderer()); // warna tiap baris
-        listTugas.addListSelectionListener(this);       // ListSelectionListener
+        listTugas.setCellRenderer(new TugasRenderer());
+        listTugas.addListSelectionListener(this);
         JScrollPane scrollPane = new JScrollPane(listTugas);
         scrollPane.setBackground(HIJAU_LATAR);
         scrollPane.setBorder(buatBorderJudul("Daftar Tugas", HIJAU_TUA));
 
-        // Gabungkan panel input dan daftar di bagian tengah
         JPanel panelTengah = new JPanel(new BorderLayout(5, 5));
         panelTengah.setBackground(HIJAU_LATAR);
         panelTengah.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -129,11 +110,9 @@ public class TodoApp extends JFrame
         panelTengah.add(scrollPane, BorderLayout.CENTER);
         add(panelTengah, BorderLayout.CENTER);
 
-        // ===== Panel Bawah (Intermediate Component) - BorderLayout.SOUTH =====
         JPanel panelBawah = new JPanel(new BorderLayout());
         panelBawah.setBackground(HIJAU_LATAR);
 
-        // Panel tombol memakai FlowLayout
         JPanel panelTombol = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         panelTombol.setBackground(HIJAU_LATAR);
         btnTandai = buatTombol("Tandai Selesai", HIJAU_PASTEL, HIJAU_TUA);
@@ -153,16 +132,13 @@ public class TodoApp extends JFrame
         add(panelBawah, BorderLayout.SOUTH);
     }
 
-    // ---------- Helper tampilan ----------
-
-    /** Membuat tombol pastel dengan garis tepi yang lebih tua agar tetap terlihat jelas. */
     private JButton buatTombol(String teks, Color warna, Color garis) {
         JButton tombol = new JButton(teks);
         tombol.setBackground(warna);
         tombol.setForeground(TEKS_GELAP);
         tombol.setFont(new Font("Arial", Font.BOLD, 12));
         tombol.setFocusPainted(false);
-        tombol.setOpaque(true);          // agar warna latar tampil di semua Look and Feel
+        tombol.setOpaque(true);
         tombol.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(garis, 2),
                 BorderFactory.createEmptyBorder(5, 14, 5, 14)));
@@ -170,7 +146,6 @@ public class TodoApp extends JFrame
         return tombol;
     }
 
-    /** Membuat border berjudul dengan warna garis tertentu. */
     private TitledBorder buatBorderJudul(String judul, Color warnaGaris) {
         TitledBorder border = BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(warnaGaris, 2), judul);
@@ -179,11 +154,6 @@ public class TodoApp extends JFrame
         return border;
     }
 
-    /**
-     * Renderer kustom: mewarnai teks tiap baris sesuai prioritas atau status.
-     * Tugas selesai berwarna abu-abu, prioritas Tinggi merah,
-     * Sedang oranye, dan Rendah hijau.
-     */
     private static class TugasRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value,
@@ -213,7 +183,6 @@ public class TodoApp extends JFrame
         }
     }
 
-    // ---------- Logika ----------
     private void tambahTugas() {
         String nama = txtTugas.getText().trim();
         if (nama.isEmpty()) {
@@ -271,7 +240,6 @@ public class TodoApp extends JFrame
         }
     }
 
-    // ---------- Event Handling: ListSelectionListener ----------
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
@@ -284,7 +252,6 @@ public class TodoApp extends JFrame
         }
     }
 
-    // ---------- Event Handling: KeyListener ----------
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -299,11 +266,9 @@ public class TodoApp extends JFrame
     public void keyTyped(KeyEvent e) { }
 
     public static void main(String[] args) {
-        // Look and Feel lintas-platform agar warna tampil sama di Windows, macOS, dan Linux
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ex) {
-            // abaikan, pakai tampilan bawaan
         }
         SwingUtilities.invokeLater(() -> new TodoApp().setVisible(true));
     }
